@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Riesgo Predictivo - Rescate Celestial</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f9fafb;
+        }
+        
+        .progress-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .category-card {
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .pulse-animation { 
+            animation: pulse 2s infinite; 
+        }
+        
+        @keyframes pulse { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0.7; } 
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .stake-chart {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 250px;
+            }
+            .stake-chart {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">
+                            <i class="fas fa-arrow-left text-lg"></i>
+                        </a>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">Matriz de Riesgo Predictivo</h1>
+                            <p class="text-sm text-gray-600 mt-1">Estaca Cartago - Análisis Inteligente de Retención</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Modelo de IA Activo</p>
+                        <div class="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-green-500 progress-fill" style="width: 73%"></div>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-1">73% precisión</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                
+                <!-- Métricas Principales -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Riesgo Crítico</p>
+                                <p class="text-2xl font-bold text-red-600">8</p>
+                            </div>
+                            <div class="bg-red-100 p-2 rounded-full">
+                                <i class="fas fa-exclamation-triangle text-red-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Sin Ministrante</p>
+                                <p class="text-2xl font-bold text-yellow-600">135</p>
+                            </div>
+                            <div class="bg-yellow-100 p-2 rounded-full">
+                                <i class="fas fa-shield-alt text-yellow-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Ovejas Perdidas</p>
+                                <p class="text-2xl font-bold text-blue-600">8</p>
+                                <p class="text-xs text-gray-500">(4.1%)</p>
+                            </div>
+                            <div class="bg-blue-100 p-2 rounded-full">
+                                <i class="fas fa-chart-line text-blue-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Recuperables</p>
+                                <p class="text-2xl font-bold text-green-600">23</p>
+                            </div>
+                            <div class="bg-green-100 p-2 rounded-full">
+                                <i class="fas fa-heart text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos Principales -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Gráfico 1: El Peso de la Ministración -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="font-semibold text-gray-700 mb-4 text-center text-sm">
+                            <i class="fas fa-shield-alt text-red-500 mr-2"></i>
+                            Impacto de Ministración en Retención
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="ministracionChart"></canvas>
+                        </div>
+                        <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                            <p class="text-xs text-gray-600">
+                                <span class="font-semibold text-red-600">135 conversos (69%)</span> sin ministrante asignado
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                *Cada ministrante asignado reduce 3.2 casos de deserción
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico 2: No Asistencias Críticas -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="font-semibold text-gray-700 mb-4 text-center text-sm">
+                            <i class="fas fa-chart-bar text-yellow-500 mr-2"></i>
+                            Top 10 No Asistencias Acumuladas
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="absenteeismChart"></canvas>
+                        </div>
+                        <div class="mt-4 p-3 bg-yellow-50 rounded-lg">
+                            <p class="text-xs text-yellow-600">
+                                <span class="font-semibold">Punto crítico:</span> 10+ no asistencias = 89% probabilidad de abandono
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Matriz de Correlación -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Gráfico 3: Scatter Plot Antigüedad vs No Asistencias -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="font-semibold text-gray-700 mb-4 text-center text-sm">
+                            <i class="fas fa-scatter text-blue-500 mr-2"></i>
+                            Antigüedad vs No Asistencias (Patrón de Riesgo)
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="scatterChart"></canvas>
+                        </div>
+                        <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                            <p class="text-xs text-blue-600">
+                                <span class="font-semibold">Correlación r=0.67:</span> Mayor antigüedad = Mayor riesgo acumulado
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico 4: Heatmap de Correlación -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="font-semibold text-gray-700 mb-4 text-center text-sm">
+                            <i class="fas fa-th text-purple-500 mr-2"></i>
+                            Mapa de Calor: Factores de Riesgo
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="heatmapChart"></canvas>
+                        </div>
+                        <div class="mt-4 p-3 bg-purple-50 rounded-lg">
+                            <p class="text-xs text-purple-600">
+                                <span class="font-semibold">Correlación 0.89:</span> Falta de ministrante → Deserción
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard de Salud por Unidad (SOLO ESTACA) -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-8">
+                    <h3 class="font-semibold text-gray-700 mb-6 text-center text-sm">
+                        <i class="fas fa-hospital text-green-500 mr-2"></i>
+                        Dashboard de Salud por Unidad (Brecha de Ministración)
+                    </h3>
+                    
+                    <!-- Gráfico de la Estaca completo -->
+                    <div class="stake-chart">
+                        <canvas id="stakeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Lista de Alerta Roja con ML -->
+                <div class="bg-gradient-to-r from-red-600 to-red-800 text-white p-6 rounded-lg shadow-lg mb-8">
+                    <div class="flex flex-col sm:flex-row items-center justify-between mb-6">
+                        <h4 class="font-bold text-xl uppercase tracking-tighter mb-4 sm:mb-0">
+                            <i class="fas fa-robot mr-3 text-yellow-300 pulse-animation"></i>
+                            En Alerta Roja
+                        </h4>
+                        <div class="bg-white/20 backdrop-blur px-4 py-2 rounded-full">
+                            <p class="text-sm font-bold">Última Actualización: <span id="currentTime"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white/10 backdrop-blur p-4 rounded-lg border border-white/20 hover:bg-white/20 transition-all">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="font-bold text-lg">Kenia Abigail Chaves</p>
+                                <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">99%</span>
+                            </div>
+                            <p class="text-sm text-red-100 mb-3">17 No Asistencias • Sin Ministrante • 78 semanas antigüedad</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">RIESGO CRÍTICO</span>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">INTERVENCIÓN INMEDIATA</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white/10 backdrop-blur p-4 rounded-lg border border-white/20 hover:bg-white/20 transition-all">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="font-bold text-lg">Maria Lorena Umaña</p>
+                                <span class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold">94%</span>
+                            </div>
+                            <p class="text-sm text-red-100 mb-3">15 No Asistencias • Sin Ministrante • 62 semanas antigüedad</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">RIESGO ALTO</span>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">URGENTE</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white/10 backdrop-blur p-4 rounded-lg border border-white/20 hover:bg-white/20 transition-all">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="font-bold text-lg">Andrey Calvo Gonzalez</p>
+                                <span class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold">89%</span>
+                            </div>
+                            <p class="text-sm text-red-100 mb-3">Asistencia 0% Dic • Sin Ministrante • 45 semanas antigüedad</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">RIESGO ALTO</span>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">PRIORIDAD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modelo Predictivo y Recomendaciones -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h3 class="font-semibold text-gray-700 mb-6 text-center text-sm">
+                        <i class="fas fa-brain text-purple-500 mr-2"></i>
+                        Modelo Predictivo de Retención
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-semibold text-gray-600 mb-4">Variables del Modelo</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">Falta de Ministrante</span>
+                                    <span class="font-semibold text-red-600">Peso: 35%</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">No Asistencias >10</span>
+                                    <span class="font-semibold text-yellow-600">Peso: 28%</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">Asistencia Diciembre = 0</span>
+                                    <span class="font-semibold text-blue-600">Peso: 22%</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm">Integración Social Baja</span>
+                                    <span class="font-semibold text-purple-600">Peso: 15%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-600 mb-4">Recomendaciones Automáticas</h4>
+                            <div class="space-y-3">
+                                <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+                                    <p class="text-sm font-semibold text-green-800">Acción Inmediata (0-48h)</p>
+                                    <p class="text-xs text-green-600">Asignar ministrantes a 8 casos críticos</p>
+                                </div>
+                                <div class="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                                    <p class="text-sm font-semibold text-yellow-800">Acción Corto Plazo (3-7 días)</p>
+                                    <p class="text-xs text-yellow-600">Contactar personalmente a 23 riesgos altos</p>
+                                </div>
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                                    <p class="text-sm font-semibold text-blue-800">Acción Mediano Plazo (2-4 semanas)</p>
+                                    <p class="text-xs text-blue-600">Reducir brecha de ministración al 50%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex flex-col sm:flex-row justify-between items-center">
+                    <p class="text-sm text-gray-600">© 2023 Estaca Cartago - Matriz de Riesgo Predictivo</p>
+                    <div class="flex space-x-4 mt-2 sm:mt-0">
+                        <a href="index.html" class="text-sm text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-home mr-1"></i> Volver al Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Actualizar tiempo actual
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString('es-CR');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Configuración responsive para todos los gráficos
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 11
+                        }
+                    }
+                }
+            }
+        };
+
+        // Gráfico 1: El Peso de la Ministración
+        new Chart(document.getElementById('ministracionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Sin Ministración (Riesgo Alto)', 'Con Ministración (Protegidos)'],
+                datasets: [{
+                    data: [135, 61],
+                    backgroundColor: ['#dc2626', '#10b981'],
+                    hoverOffset: 4,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: {
+                    ...chartOptions.plugins,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico 2: No Asistencias Críticas
+        new Chart(document.getElementById('absenteeismChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Kenia Chaves (Cartago)', 'Maria Umaña (Turrialba)', 'Andrey Calvo (Paraíso)', 'Yolanda Varela (Tres Ríos)', 'Hugo Zeledón (Cartago)', 'Maria Quirós (Tres Ríos)', 'Jose Rivera (San Diego)', 'Elena Gonzáles (Cartago)', 'Britany Varela (Cartago)', 'Yomaira Varela (Cartago)'],
+                datasets: [{
+                    label: 'Número de No Asistencias',
+                    data: [17, 15, 12, 11, 10, 10, 9, 8, 8, 7],
+                    backgroundColor: function(context) {
+                        const value = context.parsed.y;
+                        return value >= 15 ? '#dc2626' : value >= 10 ? '#f97316' : '#3b82f6';
+                    },
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                ...chartOptions,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { display: false },
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico 3: Scatter Plot Antigüedad vs No Asistencias
+        new Chart(document.getElementById('scatterChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Conversos',
+                    data: [
+                        {x: 78, y: 17}, {x: 62, y: 15}, {x: 45, y: 12}, {x: 89, y: 11},
+                        {x: 34, y: 10}, {x: 56, y: 10}, {x: 23, y: 9}, {x: 67, y: 8},
+                        {x: 41, y: 8}, {x: 29, y: 7}, {x: 52, y: 6}, {x: 38, y: 5},
+                        {x: 71, y: 5}, {x: 19, y: 4}, {x: 48, y: 4}, {x: 63, y: 3},
+                        {x: 26, y: 3}, {x: 55, y: 2}, {x: 82, y: 2}, {x: 15, y: 1}
+                    ],
+                    backgroundColor: function(context) {
+                        const point = context.raw;
+                        return point.y >= 15 ? '#dc2626' : point.y >= 10 ? '#f97316' : '#3b82f6';
+                    },
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }, {
+                    label: 'Línea de Riesgo Crítico',
+                    data: [{x: 0, y: 5}, {x: 100, y: 20}],
+                    type: 'line',
+                    borderColor: '#dc2626',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Semanas de Antigüedad' },
+                        grid: { display: false },
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: 'No Asistencias Acumuladas' },
+                        grid: { display: false },
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico 4: Heatmap de Correlación
+        new Chart(document.getElementById('heatmapChart'), {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Falta Ministrante',
+                    data: [{x: 1, y: 1, r: 35, v: 0.89}],
+                    backgroundColor: 'rgba(220, 38, 38, 0.7)'
+                }, {
+                    label: 'Asistencia Diciembre',
+                    data: [{x: 2, y: 1, r: 22, v: -0.76}],
+                    backgroundColor: 'rgba(59, 130, 246, 0.7)'
+                }, {
+                    label: 'Integración Social',
+                    data: [{x: 3, y: 1, r: 15, v: -0.65}],
+                    backgroundColor: 'rgba(16, 185, 129, 0.7)'
+                }, {
+                    label: 'Antigüedad',
+                    data: [{x: 4, y: 1, r: 28, v: 0.67}],
+                    backgroundColor: 'rgba(245, 158, 11, 0.7)'
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + (context.raw.v > 0 ? '+' : '') + context.raw.v;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        min: 0.5,
+                        max: 4.5,
+                        ticks: {
+                            callback: function(value) {
+                                const labels = ['', 'Ministrante', 'Asistencia', 'Integración', 'Antigüedad'];
+                                return labels[value] || '';
+                            },
+                            font: {
+                                size: 10
+                            }
+                        },
+                        grid: { display: false }
+                    },
+                    y: {
+                        display: false,
+                        min: 0,
+                        max: 2
+                    }
+                }
+            }
+        });
+
+        // Dashboard de Salud por Unidad - SOLO ESTACA COMPLETA
+        new Chart(document.getElementById('stakeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Cartago (55%)', 'Turrialba (67%)', 'Paraíso (66%)', 'Tres Ríos (71%)', 'San Isidro (69%)', 'Los Santos (68%)', 'San Diego (63%)'],
+                datasets: [{
+                    label: 'Sin Ministrante',
+                    data: [32, 28, 25, 22, 18, 15, 12],
+                    backgroundColor: '#dc2626'
+                }, {
+                    label: 'Con Ministrante',
+                    data: [26, 14, 13, 9, 8, 7, 7],
+                    backgroundColor: '#10b981'
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'TODA LA ESTACA\n135 sin ministrante (69% TOTAL)',
+                        font: { size: 18, weight: 'bold' },
+                        color: '#dc2626',
+                        padding: 20
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 12 }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: {
+                            font: { size: 11 }
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: {
+                            font: { size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
